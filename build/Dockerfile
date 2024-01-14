@@ -7,7 +7,11 @@ RUN npm install -g nodemon concurrently
 # Install ufbt
 RUN apt update && apt install git cron -y
 RUN git clone https://github.com/flipperdevices/flipperzero-ufbt /opt/ufbt
-RUN /opt/ufbt/ufbt update
+# RUN python /opt/ufbt/ufbt/bootstrap.py update
+RUN python -m pip install --upgrade /opt/ufbt
+# RUN /opt/ufbt/ufbt update
+# python3 -m pip install --upgrade ufbt
+
 
 # Cron task to search apps
 RUN crontab -l | { cat; echo "*/2 * * * * python /app/backend/search.py"; } | crontab -

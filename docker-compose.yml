@@ -2,14 +2,14 @@ version: '3.1'
 
 services:
   app:
-    build: .
+    build: ./build
     environment:
       DB_URL: postgresql://postgres:postgres@db/flipper-apps
       PORT: 8080
       GIT_TOKEN: ''
     volumes:
-      - ./backend:/app/backend
-      - ./frontend:/app/frontend
+      - ./build/backend:/app/backend
+      - ./build/frontend:/app/frontend
     links:
       - "db"
     ports:
@@ -17,7 +17,7 @@ services:
   db:
     image: postgres:latest
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: flipper-apps
       POSTGRES_USER: postgres
@@ -30,8 +30,8 @@ services:
     logging:
       driver: none
     volumes:
-      - ./docker/postgres.json:/pgadmin4/servers.json
-      - ./docker/pgpass:/pgpass
+      - ./build/docker/postgres.json:/pgadmin4/servers.json
+      - ./build/docker/pgpass:/pgpass
     environment:
       PGADMIN_DEFAULT_EMAIL: test@test.com
       PGADMIN_DEFAULT_PASSWORD: password
